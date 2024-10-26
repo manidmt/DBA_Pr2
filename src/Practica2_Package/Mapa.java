@@ -1,15 +1,13 @@
-/**
- *
- * @author Manuel
- */
-
 package Practica2_Package;
 
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-
+/**
+ *
+ * @author Manuel
+ */
 
 public class Mapa {
     
@@ -34,19 +32,26 @@ public class Mapa {
                 
                 String[] columna = br.readLine().split("\t");
                 
-                for (int j = 0; j < columnas; j++){
-                 
-                    mapa[i][j] = columna[j];
-                }   
+                System.arraycopy(columna, 0, mapa[i], 0, columnas);   
             }
         }
         
-        catch (IOException exception){   exception.printStackTrace();}
+        catch (IOException exception){
+        
+            System.out.println("Error al leer el archivo: " + exception.getMessage());
+            exception.printStackTrace();
+        }
     }
     
     public int getFilas(){  return filas;}
     
     public int getColunmas(){   return columnas;}
     
-    //  public String getPos(Coordenadas pos)
+    public String getPos(Coordenada pos){
+        
+        if(pos.getFila() >= 0 && pos.getFila() < filas && pos.getColumna() < columnas && pos.getColumna() >= 0)
+            return mapa[pos.getFila()][pos.getColumna()];
+        else
+            return "-1";
+    }
 }
