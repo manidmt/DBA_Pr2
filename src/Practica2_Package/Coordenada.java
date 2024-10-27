@@ -5,6 +5,8 @@ package Practica2_Package;
  * @author manidmt
  */
 
+//soy igna haciendo cambios a ver si funciona
+
 public class Coordenada {
  
     private int fila, columna;
