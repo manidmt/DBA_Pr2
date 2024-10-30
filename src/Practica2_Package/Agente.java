@@ -1,52 +1,47 @@
 package Practica2_Package;
 
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
-import java.util.List;
+import jade.wrapper.AgentContainer;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 
 public class Agente extends Agent {
-    
     private Entorno entorno;
-    private Moverse moverse;
+    private Movimiento moverse;
+    private int energiaConsumida = 0;
 
     @Override
     protected void setup() {
-        // Suponiendo que se inicia con una posición y objetivo específicos en el entorno:
         Coordenada posicionInicial = new Coordenada(0, 0);
-        Coordenada objetivo = new Coordenada(9, 9);  // Posición objetivo
-        Mapa mapa = new Mapa("ruta/al/archivo/mapa.txt");  // Asegúrate de que la ruta sea correcta
+        Coordenada objetivo = new Coordenada(9, 9);
+        Mapa mapa = new Mapa("ruta/al/archivo/mapa.txt");
 
         entorno = new Entorno(posicionInicial, objetivo, mapa);
-        moverse = new Moverse(mapa, entorno);
+        moverse = new Movimiento(mapa, entorno);
 
-        addBehaviour(new MovimientoAgente());
+        Movimiento movimiento = new Movimiento(entorno, moverse, this);
+        addBehaviour(movimiento);
     }
 
-    private class MovimientoAgente extends Behaviour {
-        private boolean alcanzado = false;
+    public void incrementarEnergia(int cantidad) {
+        energiaConsumida += cantidad;
+    }
 
-        @Override
-        public void action() {
-            if (entorno.esObjetivo(entorno.getPosicionAgente())) {
-                alcanzado = true;
-                System.out.println("El agente ha alcanzado el objetivo!");
-                return;
-            }
+    @Override
+    protected void takeDown() {
+        System.out.println("Energía total consumida: " + energiaConsumida);
+    }
 
-            List<Coordenada> ruta = moverse.Ruta_Anchura(entorno.getPosicionAgente(), entorno.getObjetivo());
-            if (ruta != null && !ruta.isEmpty()) {
-                Coordenada siguientePosicion = ruta.get(1);  // Siguiente paso en la ruta
-                entorno.actualizarPosicion(siguientePosicion);
-                System.out.println("Moviendo a: " + siguientePosicion.getFila() + ", " + siguientePosicion.getColumna());
-            } else {
-                System.out.println("No se puede alcanzar el objetivo desde la posición actual.");
-                alcanzado = true;  // Termina si no hay ruta
-            }
-        }
+    public static void main(String[] args) {
+        jade.core.Runtime runtime = jade.core.Runtime.instance();
+        jade.core.Profile profile = new jade.core.ProfileImpl();
+        AgentContainer container = runtime.createMainContainer(profile);
 
-        @Override
-        public boolean done() {
-            return alcanzado;
+        try {
+            AgentController agent = container.createNewAgent("AgenteMovil", "Practica2_Package.Agente", null);
+            agent.start();
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
         }
     }
 }

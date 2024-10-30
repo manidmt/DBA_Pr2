@@ -4,8 +4,12 @@ package Practica2_Package;
  *
  * @author Manuel
  */
+
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Entorno {
-    
     private Coordenada posicionAgente;
     private Coordenada objetivo;
     private Mapa mapa;
@@ -28,11 +32,18 @@ public class Entorno {
     }
 
     public String percibirPosicion(Coordenada pos) {
-        return mapa.getPos(pos);  // Devuelve si es libre ("0") o un obstáculo ("-1")
+        return mapa.getPos(pos);
     }
-    
-    
-    
-    
-    
+
+    public Map<String, String> see() {
+        Map<String, String> percepcion = new HashMap<>();
+        Coordenada posActual = posicionAgente;
+
+        percepcion.put("arriba", percibirPosicion(new Coordenada(posActual.getFila() - 1, posActual.getColumna())));
+        percepcion.put("abajo", percibirPosicion(new Coordenada(posActual.getFila() + 1, posActual.getColumna())));
+        percepcion.put("izquierda", percibirPosicion(new Coordenada(posActual.getFila(), posActual.getColumna() - 1)));
+        percepcion.put("derecha", percibirPosicion(new Coordenada(posActual.getFila(), posActual.getColumna() + 1)));
+
+        return percepcion;
+    }
 }
