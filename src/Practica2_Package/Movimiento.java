@@ -15,6 +15,7 @@ import jade.core.behaviours.Behaviour;
  * buscando el mejor movimiento hacia el objetivo teniendo en cuenta la visión limitada.
  */
 class Movimiento extends Behaviour {
+     private Coordenada[] percepciones; // Para almacenar las celdas visibles
     private Entorno entorno;
     private Agente agente;
     private boolean objetivoAlcanzado = false;
@@ -35,19 +36,19 @@ class Movimiento extends Behaviour {
             return;
         }
 
-        // Posibles movimientos: Norte, Sur, Este, Oeste
-        int[] dFila = {-1, 1, 0, 0};
-        int[] dColumna = {0, 0, 1, -1};
+        // Actualizar percepciones del entorno inmediato
+        see();
+
+        // Elegir el mejor movimiento hacia el objetivo basado en percepciones locales
         Coordenada mejorMovimiento = null;
         double menorDistancia = Double.MAX_VALUE;
 
-        for (int i = 0; i < 4; i++) {
-            Coordenada nuevaPos = new Coordenada(actual.getFila() + dFila[i], actual.getColumna() + dColumna[i]);
-            if (entorno.esAccesible(nuevaPos)) {
-                double distancia = calcularDistancia(nuevaPos, entorno.getObjetivo());
+        for (Coordenada percepcion : percepciones) {
+            if (entorno.esAccesible(percepcion)) {
+                double distancia = calcularDistancia(percepcion, entorno.getObjetivo());
                 if (distancia < menorDistancia) {
                     menorDistancia = distancia;
-                    mejorMovimiento = nuevaPos;
+                    mejorMovimiento = percepcion;
                 }
             }
         }
@@ -61,6 +62,19 @@ class Movimiento extends Behaviour {
     @Override
     public boolean done() {
         return objetivoAlcanzado;
+    }
+    
+    private void see() {
+        Coordenada actual = entorno.getPosicionActual();
+        percepciones = new Coordenada[8];
+        percepciones[0] = new Coordenada(actual.getFila() - 1, actual.getColumna()); // Norte
+        percepciones[1] = new Coordenada(actual.getFila() + 1, actual.getColumna()); // Sur
+        percepciones[2] = new Coordenada(actual.getFila(), actual.getColumna() + 1); // Este
+        percepciones[3] = new Coordenada(actual.getFila(), actual.getColumna() - 1); // Oeste
+        percepciones[4] = new Coordenada(actual.getFila() - 1, actual.getColumna() - 1); // Noroeste
+        percepciones[5] = new Coordenada(actual.getFila() - 1, actual.getColumna() + 1); // Noreste
+        percepciones[6] = new Coordenada(actual.getFila() + 1, actual.getColumna() - 1); // Suroeste
+        percepciones[7] = new Coordenada(actual.getFila() + 1, actual.getColumna() + 1); // Sureste
     }
 
     private double calcularDistancia(Coordenada a, Coordenada b) {
