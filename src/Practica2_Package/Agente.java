@@ -16,17 +16,23 @@ import jade.wrapper.ControllerException;
 
 /**
  * Clase Agente que configura el entorno y los comportamientos del agente.
- */
+*/
 public class Agente extends Agent {
     private Entorno entorno;
     private int energiaConsumida = 0; // Variable para rastrear la energía consumida
 
     @Override
     protected void setup() {
+        // Definir variables de posición inicial y objetivo que se pueden personalizar en cada ejecución
+        int inicioFila = 1; // Cambiar este valor según se necesite
+        int inicioColumna = 1; // Cambiar este valor según se necesite
+        int objetivoFila = 8; // Cambiar este valor según se necesite
+        int objetivoColumna = 8; // Cambiar este valor según se necesite
+
         try {
             // Configuración de la posición inicial y objetivo del agente
-            Coordenada posicionInicial = new Coordenada(0, 0);
-            Coordenada objetivo = new Coordenada(9, 9);
+            Coordenada posicionInicial = new Coordenada(inicioFila, inicioColumna);
+            Coordenada objetivo = new Coordenada(objetivoFila, objetivoColumna);
             Mapa mapa = new Mapa("Mapas/mapWithComplexObstacle1.txt"); // Ruta del mapa
 
             // Inicializar el entorno y el comportamiento de movimiento

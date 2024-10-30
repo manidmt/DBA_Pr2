@@ -18,6 +18,10 @@ class Entorno {
     private Mapa mapa;
 
     public Entorno(Coordenada inicial, Coordenada objetivo, Mapa mapa) {
+        this.mapa = mapa;
+        this.objetivo = objetivo;
+        this.posicionActual = inicial;
+        mapa.marcarCamino(inicial); // Marca la posición inicial del agente
         this.posicionActual = inicial;
         this.objetivo = objetivo;
         this.mapa = mapa;

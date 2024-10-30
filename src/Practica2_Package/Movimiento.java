@@ -31,6 +31,7 @@ class Movimiento extends Behaviour {
             objetivoAlcanzado = true;
             System.out.println("Objetivo alcanzado en: " + actual.getFila() + ", " + actual.getColumna());
             entorno.getMapa().imprimirMapa();
+            agente.doDelete(); // Finalizar el agente para asegurar que se llame a takeDown()
             return;
         }
 
