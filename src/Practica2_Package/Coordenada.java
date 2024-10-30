@@ -13,7 +13,8 @@ package Practica2_Package;
  * Clase Coordenada que representa una posición en el mapa.
  * 
  */
-public class Coordenada {
+
+class Coordenada {
     private int fila, columna;
 
     public Coordenada(int fila, int columna) {
@@ -26,7 +27,7 @@ public class Coordenada {
     public void setFila(int fila) { this.fila = fila; }
     public void setColumna(int columna) { this.columna = columna; }
 
-    public Boolean equals(Coordenada pos) {
+    public boolean equals(Coordenada pos) {
         return this.fila == pos.getFila() && this.columna == pos.getColumna();
     }
 }

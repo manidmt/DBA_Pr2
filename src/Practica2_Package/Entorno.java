@@ -9,41 +9,27 @@ package Practica2_Package;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Entorno {
-    private Coordenada posicionAgente;
+/**
+ * Clase Entorno que maneja el estado del agente y el objetivo
+ */
+class Entorno {
+    private Coordenada posicionActual;
     private Coordenada objetivo;
     private Mapa mapa;
 
-    public Entorno(Coordenada posicionInicial, Coordenada objetivo, Mapa mapa) {
-        this.posicionAgente = posicionInicial;
+    public Entorno(Coordenada inicial, Coordenada objetivo, Mapa mapa) {
+        this.posicionActual = inicial;
         this.objetivo = objetivo;
         this.mapa = mapa;
     }
 
-    public Coordenada getPosicionAgente() { return posicionAgente; }
+    public Coordenada getPosicionActual() { return posicionActual; }
     public Coordenada getObjetivo() { return objetivo; }
-
+    public boolean esObjetivo(Coordenada pos) { return objetivo.equals(pos); }
+    public boolean esAccesible(Coordenada pos) { return mapa.esAccesible(pos); }
     public void actualizarPosicion(Coordenada nuevaPosicion) {
-        this.posicionAgente = nuevaPosicion;
+        this.posicionActual = nuevaPosicion;
+        mapa.marcarCamino(nuevaPosicion);
     }
-
-    public boolean esObjetivo(Coordenada pos) {
-        return objetivo.equals(pos);
-    }
-
-    public String percibirPosicion(Coordenada pos) {
-        return mapa.getPos(pos);
-    }
-
-    public Map<String, String> see() {
-        Map<String, String> percepcion = new HashMap<>();
-        Coordenada posActual = posicionAgente;
-
-        percepcion.put("arriba", percibirPosicion(new Coordenada(posActual.getFila() - 1, posActual.getColumna())));
-        percepcion.put("abajo", percibirPosicion(new Coordenada(posActual.getFila() + 1, posActual.getColumna())));
-        percepcion.put("izquierda", percibirPosicion(new Coordenada(posActual.getFila(), posActual.getColumna() - 1)));
-        percepcion.put("derecha", percibirPosicion(new Coordenada(posActual.getFila(), posActual.getColumna() + 1)));
-
-        return percepcion;
-    }
+    public Mapa getMapa() { return mapa; }
 }

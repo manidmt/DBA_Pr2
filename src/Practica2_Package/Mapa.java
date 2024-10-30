@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class Mapa {
     private int filas, columnas;
-    private String[][] mapa;
+    private int[][] mapa;
 
     public Mapa(String fichero) throws IOException {
         leerMapa(fichero);
@@ -21,11 +21,13 @@ public class Mapa {
             filas = Integer.parseInt(br.readLine());
             columnas = Integer.parseInt(br.readLine());
             
-            mapa = new String[filas][columnas];
+            mapa = new int[filas][columnas];
             
             for (int i = 0; i < filas; i++) {
                 String[] columna = br.readLine().split("\t");
-                System.arraycopy(columna, 0, mapa[i], 0, columnas);   
+                for (int j = 0; j < columnas; j++) {
+                    mapa[i][j] = Integer.parseInt(columna[j]);
+                }
             }
         } catch (IOException exception) {
             System.out.println("Error al leer el archivo: " + exception.getMessage());
@@ -36,17 +38,33 @@ public class Mapa {
     public int getFilas() { return filas; }
     public int getColumnas() { return columnas; }
 
-    public String getPos(Coordenada pos) {
+    public int getPos(Coordenada pos) {
         if (pos.getFila() >= 0 && pos.getFila() < filas &&
             pos.getColumna() >= 0 && pos.getColumna() < columnas)
             return mapa[pos.getFila()][pos.getColumna()];
         else
-            return "-1";
+            return -1;
     }
 
     public boolean esAccesible(Coordenada pos) {
         return pos.getFila() >= 0 && pos.getFila() < filas &&
                pos.getColumna() >= 0 && pos.getColumna() < columnas &&
-               "0".equals(mapa[pos.getFila()][pos.getColumna()]);
+               mapa[pos.getFila()][pos.getColumna()] == 0;
+    }
+
+    public void marcarCamino(Coordenada pos) {
+        if (pos.getFila() >= 0 && pos.getFila() < filas &&
+            pos.getColumna() >= 0 && pos.getColumna() < columnas) {
+            mapa[pos.getFila()][pos.getColumna()] = 2; // Marca la celda por la que el agente ha pasado
+        }
+    }
+
+    public void imprimirMapa() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                System.out.print(mapa[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

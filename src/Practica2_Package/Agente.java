@@ -2,14 +2,23 @@ package Practica2_Package;
 
 import jade.core.Agent;
 import java.io.IOException;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
+import jade.wrapper.AgentContainer;
+import jade.wrapper.ControllerException;
+
 
 /**
  * Clase Agente que configura el entorno y los comportamientos del agente.
  * 
  */
+
+/**
+ * Clase Agente que configura el entorno y los comportamientos del agente.
+ */
 public class Agente extends Agent {
     private Entorno entorno;
-    private Moverse moverse;
     private int energiaConsumida = 0; // Variable para rastrear la energía consumida
 
     @Override
@@ -22,10 +31,9 @@ public class Agente extends Agent {
 
             // Inicializar el entorno y el comportamiento de movimiento
             entorno = new Entorno(posicionInicial, objetivo, mapa);
-            moverse = new Moverse(mapa, entorno);
 
             // Crear el comportamiento de movimiento y añadirlo al agente
-            Movimiento movimiento = new Movimiento(entorno, moverse, this);
+            Movimiento movimiento = new Movimiento(entorno, this);
             addBehaviour(movimiento);
         } catch (IOException e) {
             System.out.println("Error al cargar el mapa: " + e.getMessage());
@@ -48,6 +56,3 @@ public class Agente extends Agent {
         System.out.println("Energía total consumida: " + energiaConsumida);
     }
 }
-
-
-
