@@ -49,7 +49,8 @@ public class Mapa {
     public boolean esAccesible(Coordenada pos) {
         return pos.getFila() >= 0 && pos.getFila() < filas &&
                pos.getColumna() >= 0 && pos.getColumna() < columnas &&
-               mapa[pos.getFila()][pos.getColumna()] == 0;
+               (mapa[pos.getFila()][pos.getColumna()] == 0 || 
+                mapa[pos.getFila()][pos.getColumna()] == 8);
     }
 
     public void marcarCamino(Coordenada pos) {
@@ -58,7 +59,10 @@ public class Mapa {
             mapa[pos.getFila()][pos.getColumna()] = 2; // Marca la celda por la que el agente ha pasado
         }
     }
-
+    
+    public void IndicarObjetivo(Coordenada pos) {
+        mapa[pos.getFila()][pos.getColumna()] = 8;
+    }
     public void imprimirMapa() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {

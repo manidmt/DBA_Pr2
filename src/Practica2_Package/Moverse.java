@@ -1,18 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Practica2_Package;
 
 /**
  *
- * @author ignacio
+ * 
  */
 import java.util.*;
 
 /**
  * Clase Moverse que permite al agente calcular rutas en el mapa.
  * 
+ * @author Manuel
  */
 public class Moverse {
     private Mapa mapa;
@@ -50,27 +47,48 @@ public class Moverse {
             }
         }
 
-        System.out.println("No se ha encontrado ruta al objetivo");
+        //System.out.println("No se ha encontrado ruta al objetivo");
         return null;
     }
 
     public List<Coordenada> obtenerPosAdyacente(Coordenada pos) {
-        List<Coordenada> adyacentes = new ArrayList<>();
+    List<Coordenada> adyacentes = new ArrayList<>();
 
-        Coordenada arriba = new Coordenada(pos.getFila() - 1, pos.getColumna());
-        if (esAccesible(arriba)) adyacentes.add(arriba);
+    // Movimiento arriba
+    Coordenada arriba = new Coordenada(pos.getFila() - 1, pos.getColumna());
+    if (esAccesible(arriba)) adyacentes.add(arriba);
 
-        Coordenada abajo = new Coordenada(pos.getFila() + 1, pos.getColumna());
-        if (esAccesible(abajo)) adyacentes.add(abajo);
+    // Movimiento abajo
+    Coordenada abajo = new Coordenada(pos.getFila() + 1, pos.getColumna());
+    if (esAccesible(abajo)) adyacentes.add(abajo);
 
-        Coordenada izquierda = new Coordenada(pos.getFila(), pos.getColumna() - 1);
-        if (esAccesible(izquierda)) adyacentes.add(izquierda);
+    // Movimiento izquierda
+    Coordenada izquierda = new Coordenada(pos.getFila(), pos.getColumna() - 1);
+    if (esAccesible(izquierda)) adyacentes.add(izquierda);
 
-        Coordenada derecha = new Coordenada(pos.getFila(), pos.getColumna() + 1);
-        if (esAccesible(derecha)) adyacentes.add(derecha);
+    // Movimiento derecha
+    Coordenada derecha = new Coordenada(pos.getFila(), pos.getColumna() + 1);
+    if (esAccesible(derecha)) adyacentes.add(derecha);
 
-        return adyacentes;
-    }
+    // Movimiento diagonal arriba-izquierda
+    Coordenada arribaIzquierda = new Coordenada(pos.getFila() - 1, pos.getColumna() - 1);
+    if (esAccesible(arribaIzquierda)) adyacentes.add(arribaIzquierda);
+
+    // Movimiento diagonal arriba-derecha
+    Coordenada arribaDerecha = new Coordenada(pos.getFila() - 1, pos.getColumna() + 1);
+    if (esAccesible(arribaDerecha)) adyacentes.add(arribaDerecha);
+
+    // Movimiento diagonal abajo-izquierda
+    Coordenada abajoIzquierda = new Coordenada(pos.getFila() + 1, pos.getColumna() - 1);
+    if (esAccesible(abajoIzquierda)) adyacentes.add(abajoIzquierda);
+
+    // Movimiento diagonal abajo-derecha
+    Coordenada abajoDerecha = new Coordenada(pos.getFila() + 1, pos.getColumna() + 1);
+    if (esAccesible(abajoDerecha)) adyacentes.add(abajoDerecha);
+
+    return adyacentes;
+}
+
 
     public boolean esAccesible(Coordenada pos) {
         return mapa.esAccesible(pos);
