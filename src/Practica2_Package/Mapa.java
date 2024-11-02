@@ -56,8 +56,12 @@ public class Mapa {
     public void marcarCamino(Coordenada pos) {
         if (pos.getFila() >= 0 && pos.getFila() < filas &&
             pos.getColumna() >= 0 && pos.getColumna() < columnas) {
-            mapa[pos.getFila()][pos.getColumna()] = 2; // Marca la celda por la que el agente ha pasado
+            mapa[pos.getFila()][pos.getColumna()] = 2; 
         }
+    }
+    
+    public void IndicarInicio(Coordenada pos) {
+        mapa[pos.getFila()][pos.getColumna()] = 1;
     }
     
     public void IndicarObjetivo(Coordenada pos) {

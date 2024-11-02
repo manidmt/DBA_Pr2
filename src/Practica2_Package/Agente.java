@@ -10,6 +10,7 @@ public class Agente extends Agent {
     private Moverse moverse;
     private List<Coordenada> ruta;
     private Entorno entorno; // Instancia del entorno
+    private Interfaz interfaz;
 
     @Override
     protected void setup() {
@@ -20,9 +21,10 @@ public class Agente extends Agent {
 
             // Inicializar el entorno
             entorno = new Entorno(inicio, objetivo, mapa);
-
-            // Crear una instancia de Moverse
             moverse = new Moverse(mapa, entorno);
+            
+            interfaz = new Interfaz(mapa.getFilas(), mapa.getColumnas());
+            interfaz.actualizarMapa(mapa, inicio, objetivo);
 
             // Calcular la ruta con BFS
             ruta = moverse.Ruta_Anchura(inicio, objetivo);
@@ -34,10 +36,19 @@ public class Agente extends Agent {
                     secuenciaMovimiento.addSubBehaviour(new OneShotBehaviour() {
                         @Override
                         public void action() {
+                            
+                            try {
+                                // Pausa de 500 milisegundos entre movimientos
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            
                             entorno.actualizarPosicion(paso);
                             mapa.imprimirMapa();
-                            System.out.println("Moviéndose a: " + paso);
+                            if (paso != inicio) interfaz.actualizarBoton(paso.getFila(), paso.getColumna(), "2");
                             System.out.println("Número de pasos: " + entorno.getNumeroPasos());
+                            interfaz.actualizarEnergia(entorno.getNumeroPasos());
                         
                             if (entorno.esObjetivo(paso)) {
                                 System.out.println("El agente ha llegado al objetivo.");

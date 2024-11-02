@@ -7,6 +7,7 @@ package Practica2_Package;
  */
 public class Entorno {
     private Coordenada posicionActual;
+    private Coordenada inicio;
     private Coordenada objetivo;
     private Mapa mapa;
     private int numeroPasos; // Contador de pasos
@@ -21,11 +22,12 @@ public class Entorno {
     public Entorno(Coordenada inicial, Coordenada objetivo, Mapa mapa) {
         this.mapa = mapa;
         this.objetivo = objetivo;
+        this.inicio = inicial;
         this.posicionActual = inicial;
         this.numeroPasos = 0; // Inicializar el contador de pasos
 
         // Marca la posición inicial del agente en el mapa
-        mapa.marcarCamino(inicial);
+        mapa.IndicarInicio(inicial);
         mapa.IndicarObjetivo(objetivo);
     }
 
@@ -69,7 +71,7 @@ public class Entorno {
      */
     public void actualizarPosicion(Coordenada nuevaPosicion) {
         this.posicionActual = nuevaPosicion;
-        mapa.marcarCamino(nuevaPosicion);
+        if (nuevaPosicion != inicio) mapa.marcarCamino(nuevaPosicion);
         numeroPasos++; // Incrementa el contador de pasos
     }
 
