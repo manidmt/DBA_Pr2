@@ -14,8 +14,17 @@ import java.awt.event.MouseEvent;
 
 /**
  *
- * @author Manuel
+ * @author Grupo 204
  */
+
+/**
+ * @brief Clase Interfaz que representa la interfaz gráfica para visualizar el mapa y el progreso del agente.
+ * 
+ * La clase Interfaz crea una ventana con una cuadrícula que representa el mapa.
+ * Incluye métodos para actualizar el estado de las celdas en el mapa, mostrar la posición del agente,
+ * y rastrear el número de pasos realizados.
+ */
+
 public class Interfaz extends JFrame{
     
     private JPanel panel;
@@ -27,6 +36,12 @@ public class Interfaz extends JFrame{
     private JLabel energiaLabel;
     private JLabel coordenadasLabel;
     
+    /**
+     * @brief Constructor de la clase Interfaz que inicializa la cuadrícula y la ventana.
+     * 
+     * @param filas Número de filas en el mapa.
+     * @param columnas Número de columnas en el mapa.
+     */
     public Interfaz(int filas, int columnas) {
         super("Mapa del Agente");
         panel = new JPanel(new GridLayout(filas, columnas));
@@ -37,13 +52,6 @@ public class Interfaz extends JFrame{
                 botones[i][j] = new JButton();
                 final int filaFinal = i; // Variable final para i
                 final int columnaFinal = j; // Variable final para j
-                
-                /*botones[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        manejarClicEnBoton(filaFinal, columnaFinal);
-                    }
-                });*/
                 
                 botones[i][j].addMouseListener(new MouseAdapter() {
                     @Override
@@ -74,6 +82,13 @@ public class Interfaz extends JFrame{
         this.setVisible(true);
     }
     
+    /**
+     * @brief Actualiza el color de una celda en la cuadrícula en función del tipo de terreno o estado.
+     * 
+     * @param fila Índice de la fila de la celda a actualizar.
+     * @param columna Índice de la columna de la celda a actualizar.
+     * @param texto Código que representa el tipo de celda (inicio, objetivo, obstáculo, etc.).
+     */
     public void actualizarBoton(int fila, int columna, String texto) {
         
         JButton boton = botones[fila][columna];
@@ -99,38 +114,40 @@ public class Interfaz extends JFrame{
         }
     }
     
-    /*
-    private void manejarClicEnBoton(int fila, int columna) {
-        
-        JButton boton = botones[fila][columna];
-        
-        if (seleccionandoInicio) {
-            
-            inicioSeleccionado = new Coordenada(fila, columna);
-            boton.setBackground(Color.GREEN); 
-            seleccionandoInicio = false;
-            seleccionandoObjetivo = true;
-        } else if(seleccionandoObjetivo){
-            
-            objetivoSeleccionado = new Coordenada(fila, columna);
-            boton.setBackground(Color.RED); 
-            seleccionandoObjetivo = false;
-        }
-    }*/
-    
+    /**
+     * @brief Muestra las coordenadas de una celda cuando el ratón pasa sobre ella.
+     * 
+     * @param fila Índice de la fila de la celda.
+     * @param columna Índice de la columna de la celda.
+     */
     private void mostrarCoordenadas(int fila, int columna) {
         coordenadasLabel.setText("Coordenadas: (" + fila + ", " + columna + ")");
     }
     
+    /**
+     * @brief Actualiza el contador de pasos realizados en la interfaz.
+     * 
+     * @param energia Número de pasos realizados.
+     */
     public void actualizarEnergia(int energia) {
         energiaLabel.setText("Pasos: " + energia);
     }
 
+    /**
+     * @brief Oculta las coordenadas cuando el ratón sale de una celda.
+     */
     private void ocultarCoordenadas() {
         coordenadasLabel.setText("");
     }
     
-   public void actualizarMapa(Mapa mapa, Coordenada inicio, Coordenada objetivo) {
+    /**
+     * @brief Actualiza el mapa completo en la interfaz para mostrar el estado inicial del mapa.
+     * 
+     * @param mapa El objeto Mapa que contiene el estado de cada celda.
+     * @param inicio Coordenada de la posición inicial.
+     * @param objetivo Coordenada de la posición objetivo.
+     */
+    public void actualizarMapa(Mapa mapa, Coordenada inicio, Coordenada objetivo) {
         
        for (int i = 0; i < mapa.getFilas(); i++) {
             for (int j = 0; j < mapa.getColumnas(); j++) {
@@ -149,7 +166,4 @@ public class Interfaz extends JFrame{
             }
         }
     }
-
-
-
 }

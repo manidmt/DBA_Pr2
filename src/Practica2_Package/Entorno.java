@@ -1,9 +1,17 @@
 package Practica2_Package;
 
 /**
- * Clase Entorno que maneja el estado del agente y el objetivo
  * 
- * @author Manuel
+ * @author Grupo 204
+ */
+
+/**
+ * @brief Clase Entorno que representa el contexto en el que el agente se mueve.
+ * 
+ * La clase Entorno define y administra las propiedades y el estado del espacio en el cual
+ * el agente opera. Contiene la posición actual del agente, la posición objetivo,
+ * y una referencia al mapa. Proporciona métodos para actualizar la posición del agente,
+ * verificar si ha llegado al objetivo, y determinar la accesibilidad de las celdas en el mapa.
  */
 public class Entorno {
     private Coordenada posicionActual;

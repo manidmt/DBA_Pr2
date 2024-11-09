@@ -6,16 +6,37 @@ import jade.core.behaviours.OneShotBehaviour;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ *
+ * @author Grupo 204
+ */
+
+/**
+ * @brief Clase Agente que representa un agente que se mueve en un mapa para alcanzar un objetivo.
+ * 
+ * Esta clase extiende la clase `Agent` de JADE y define el comportamiento del agente para moverse en un mapa.
+ * El agente calcula una ruta usando búsqueda en anchura y sigue la ruta paso a paso, actualizando la interfaz
+ * gráfica y mostrando el progreso en la consola.
+ * 
+ */ 
+
 public class Agente extends Agent {
     private Moverse moverse;
     private List<Coordenada> ruta;
     private Entorno entorno; // Instancia del entorno
     private Interfaz interfaz;
 
+    /**
+     * @brief Método de configuración inicial del agente.
+     * 
+     * Este método se ejecuta al iniciar el agente. Carga el mapa, inicializa el entorno y la interfaz gráfica,
+     * calcula la ruta hacia el objetivo usando búsqueda en anchura (BFS) y define un comportamiento secuencial
+     * para que el agente siga la ruta paso a paso.
+     */
     @Override
     protected void setup() {
         try {
-            Mapa mapa = new Mapa("Mapas/mapWithComplexObstacle1.txt");
+            Mapa mapa = new Mapa("Mapas/mapWithComplexObstacle2.txt");
             Coordenada inicio = new Coordenada(0, 0); // Ajusta según tus datos
             Coordenada objetivo = new Coordenada(5, 5); // Ajusta según tus datos
 
@@ -70,6 +91,12 @@ public class Agente extends Agent {
         }
     }
 
+    /**
+     * @brief Método de terminación del agente.
+     * 
+     * Este método se ejecuta cuando el agente finaliza, ya sea al alcanzar el objetivo
+     * o por algún error. Muestra un mensaje en la consola indicando el número de pasos realizados.
+     */
     @Override
     protected void takeDown() {
         // Mostrar un mensaje al finalizar el agente
