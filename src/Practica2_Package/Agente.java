@@ -5,6 +5,7 @@ import jade.core.behaviours.SequentialBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -37,8 +38,9 @@ public class Agente extends Agent {
     protected void setup() {
         try {
             Mapa mapa = new Mapa("Mapas/mapWithComplexObstacle2.txt");
-            Coordenada inicio = new Coordenada(0, 0); // Ajusta según tus datos
-            Coordenada objetivo = new Coordenada(5, 5); // Ajusta según tus datos
+            
+            Coordenada inicio = solicitarCoordenada("inicio", mapa);
+            Coordenada objetivo = solicitarCoordenada("objetivo", mapa);
 
             // Inicializar el entorno
             entorno = new Entorno(inicio, objetivo, mapa);
@@ -102,6 +104,33 @@ public class Agente extends Agent {
         // Mostrar un mensaje al finalizar el agente
         System.out.println("Agente finalizado después de " + entorno.getNumeroPasos() + " pasos.");
     }
+    
+    /**
+    * @brief Solicita las coordenadas al usuario y las valida contra el mapa.
+    * 
+    * @param tipo Indica si es la coordenada de "inicio" o "objetivo".
+    * @param mapa El mapa donde se validan las coordenadas.
+    * @return Una coordenada válida dentro del mapa.
+    */
+   private Coordenada solicitarCoordenada(String tipo, Mapa mapa) {
+       Scanner scanner = new Scanner(System.in);
+       Coordenada coordenada = null;
+
+       while (coordenada == null) {
+           System.out.println("Introduce las coordenadas de " + tipo + " (fila columna):");
+           int fila = scanner.nextInt();
+           int columna = scanner.nextInt();
+
+           Coordenada posibleCoordenada = new Coordenada(fila, columna);
+           if (mapa.esAccesible(posibleCoordenada)) {
+               coordenada = posibleCoordenada;
+           } else {
+               System.out.println("Las coordenadas introducidas no son válidas. Inténtalo de nuevo.");
+           }
+       }
+
+       return coordenada;
+   }
 }
 
 
